@@ -85,6 +85,7 @@ ShieldedEnemy* createEnemies(const int n)
 		health = getRandomInt(0, 100);
 		attackDamage = getRandomInt(0, 100);
 		shieldHealth = getRandomInt(0, 100);
+//C6385 Reading invalid data from 'data':  the readable size is '(unsigned int)*56+4' bytes, but '112' bytes may be read.
 		data[i] = ShieldedEnemy("Enemy" + std::to_string(i+1), health, attackDamage, hitProbability, shieldHealth);
 		if (attackDamage < 50) {
 			throw(IllegalEnemyException("Attack damage too low.", data[i]));
