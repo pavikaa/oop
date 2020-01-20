@@ -73,7 +73,6 @@ public:
 };
 ShieldedEnemy* createEnemies(const int n)
 {
-	const int m = n;
 	int health = getRandomInt(0, 100);
 	int attackDamage = getRandomInt(0, 100);
 	int shieldHealth = getRandomInt(0, 100);
@@ -81,13 +80,20 @@ ShieldedEnemy* createEnemies(const int n)
 	ShieldedEnemy* data=new ShieldedEnemy[n];
 	for (int i = 0; i < n; i++)
 	{
-		std::cout << i;
 		health = getRandomInt(0, 100);
 		attackDamage = getRandomInt(0, 100);
 		shieldHealth = getRandomInt(0, 100);
-		data[i] = ShieldedEnemy("Enemy" + std::to_string(i+1), health, attackDamage, hitProbability, shieldHealth);
-		if (attackDamage < 50) {
-			throw(IllegalEnemyException("Attack damage too low.", data[i]));
+		data[i] = ShieldedEnemy("Enemy" + std::to_string(i + 1), health, attackDamage, hitProbability, shieldHealth);
+		try 
+		{
+			if (attackDamage < 50)
+			{
+				throw(IllegalEnemyException("Attack damage too low.", data[i]));
+			}
+		}
+		catch (const IllegalEnemyException & e)
+		{
+			std::cout << e.getEnemyName() << ", " << e.getEnemyHealth() << ", " << e.getEnemyAttackDamage() << ", " << e.getEnemyHitProbability() << ", " << e.getEnemyShieldHealth() << std::endl;
 		}
 	}
 	return data;
@@ -123,15 +129,7 @@ int main()
 {
 	int i = 0;
 	srand(time(NULL));
-		try
-		{
-			ShieldedEnemy* enemies = createEnemies(10);
-		}
-		catch (const IllegalEnemyException & e)
-		{
-			std::cout << e.getEnemyName() << ", " << e.getEnemyHealth() << ", " << e.getEnemyAttackDamage() << ", " << e.getEnemyHitProbability() << ", " << e.getEnemyShieldHealth() << std::endl;
-		}
-		//ShieldedEnemy* enemies1 = createEnemies(5);
-		//ShieldedEnemy* enemies2 = createEnemies(5);
-		//std::cout << runBattle(enemies1, enemies2);
+		ShieldedEnemy* enemies1 = createEnemies(5);
+		ShieldedEnemy* enemies2 = createEnemies(5);
+		std::cout << runBattle(enemies1, enemies2);
 }
