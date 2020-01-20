@@ -35,14 +35,13 @@ class ShieldedEnemy : public Enemy
 {
 	double mhitProbability;
 	int mshieldHealth;
-	void takeDamage(int);
 public:
 	ShieldedEnemy(std::string name,int health,int attackDamage,double hitProbability,int shieldHealth):Enemy(name,health,attackDamage),mhitProbability(hitProbability),mshieldHealth(shieldHealth){}
 	ShieldedEnemy():Enemy("Default", 100, 50), mhitProbability(0.5), mshieldHealth(100) {}
 	int getShieldHealth() const { return mshieldHealth; }
 	double getHitProbability() const { return mhitProbability; }
+	void takeDamage(int);
 };
-
 void ShieldedEnemy::takeDamage(int amount)
 {
 	double r = getRandomDouble(0, 1);
@@ -105,11 +104,11 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 	int n = 5;
 	for (int i = 0; i < n; i++)
 	{
-		enemies2[getRandomInt(0, 5)].heal(-enemies1[i].getAttackDamage());
+		enemies2[getRandomInt(0, 5)].takeDamage(-enemies1[i].getAttackDamage());
 	}
 	for (int i = 0; i < n; i++)
 	{
-		enemies1[getRandomInt(0, 5)].heal(-enemies2[i].getAttackDamage());
+		enemies1[getRandomInt(0, 5)].takeDamage(-enemies2[i].getAttackDamage());
 	}
 	int counter1 = 0, counter2 = 0;
 	for (int i = 0; i < n; i++)
