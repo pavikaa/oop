@@ -104,11 +104,11 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 	int n = 5;
 	for (int i = 0; i < n; i++)
 	{
-		enemies2[getRandomInt(0, 5)].takeDamage(-enemies1[i].getAttackDamage());
+		enemies2[getRandomInt(0, 5)].takeDamage(enemies1[i].getAttackDamage());
 	}
 	for (int i = 0; i < n; i++)
 	{
-		enemies1[getRandomInt(0, 5)].takeDamage(-enemies2[i].getAttackDamage());
+		enemies1[getRandomInt(0, 5)].takeDamage(enemies2[i].getAttackDamage());
 	}
 	int counter1 = 0, counter2 = 0;
 	for (int i = 0; i < n; i++)
