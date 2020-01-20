@@ -104,11 +104,11 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 	int n = 5;
 	for (int i = 0; i < n; i++)
 	{
-		enemies2[getRandomInt(0, 5)].takeDamage(enemies1[i].getAttackDamage());
+		enemies2[getRandomInt(0, n)].takeDamage(enemies1[i].getAttackDamage());
 	}
 	for (int i = 0; i < n; i++)
 	{
-		enemies1[getRandomInt(0, 5)].takeDamage(enemies2[i].getAttackDamage());
+		enemies1[getRandomInt(0, n)].takeDamage(enemies2[i].getAttackDamage());
 	}
 	int counter1 = 0, counter2 = 0;
 	for (int i = 0; i < n; i++)
@@ -118,6 +118,7 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 		if (enemies2[i].getHealth() > 0)
 			counter2++;
 	}
+	std::cout << counter1 << " " << counter2 << std::endl;
 	if (counter1 > counter2)
 		return 1;
 	if (counter1 < counter2)
@@ -127,7 +128,6 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 }
 int main()
 {
-	int i = 0;
 	srand(time(NULL));
 		ShieldedEnemy* enemies1 = createEnemies(5);
 		ShieldedEnemy* enemies2 = createEnemies(5);
