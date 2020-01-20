@@ -55,7 +55,7 @@ void ShieldedEnemy::takeDamage(int amount)
 		{
 			int healthDamage = amount - mshieldHealth;
 			mshieldHealth = 0;
-			heal(-amount);
+			heal(-healthDamage);
 		}
 	}
 }
