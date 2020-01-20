@@ -83,6 +83,7 @@ ShieldedEnemy* createEnemies(const int n)
 		health = getRandomInt(0, 100);
 		attackDamage = getRandomInt(0, 100);
 		shieldHealth = getRandomInt(0, 100);
+		//C6385	Reading invalid data from 'data':  the readable size is '(unsigned int)*56+4' bytes, but '112' bytes may be read
 		data[i] = ShieldedEnemy("Enemy" + std::to_string(i + 1), health, attackDamage, hitProbability, shieldHealth);
 		try 
 		{
@@ -104,11 +105,11 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 	int n = 5;
 	for (int i = 0; i < n; i++)
 	{
-		enemies2[getRandomInt(0, 1)].heal(-enemies1[i].getAttackDamage());
+		enemies2[getRandomInt(0, 5)].heal(-enemies1[i].getAttackDamage());
 	}
 	for (int i = 0; i < n; i++)
 	{
-		enemies1[getRandomInt(0, 1)].heal(-enemies2[i].getAttackDamage());
+		enemies1[getRandomInt(0, 5)].heal(-enemies2[i].getAttackDamage());
 	}
 	int counter1 = 0, counter2 = 0;
 	for (int i = 0; i < n; i++)
