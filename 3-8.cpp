@@ -61,64 +61,60 @@ void ShieldedEnemy::takeDamage(int amount)
 }
 class IllegalEnemyException :public std::runtime_error
 {
-	ShieldedEnemy enemy;
+	Enemy *enemy;
 public:
-	IllegalEnemyException(std::string message,ShieldedEnemy enemy) :std::runtime_error(message),enemy(enemy){}
-	std::string getEnemyName() const { return enemy.getName(); }
-	int getEnemyHealth() const { return enemy.getHealth(); }
-	int getEnemyAttackDamage() const { return enemy.getAttackDamage(); }
-	int getEnemyShieldHealth() const { return enemy.getShieldHealth(); }
-	double getEnemyHitProbability() const { return enemy.getHitProbability(); }
+	IllegalEnemyException(std::string message,Enemy *enemy) :std::runtime_error(message),enemy(enemy){}
+	std::string getEnemyName() const { return enemy->getName(); }
+	int getEnemyHealth() const { return enemy->getHealth(); }
+	int getEnemyAttackDamage() const { return enemy->getAttackDamage(); }
 };
-ShieldedEnemy* createEnemies(const int n)
+Enemy** createEnemies(const int n)
 {
 	int health = getRandomInt(0, 100);
 	int attackDamage = getRandomInt(0, 100);
 	int shieldHealth = getRandomInt(0, 100);
 	double hitProbability = getRandomDouble(0, 1);
-	ShieldedEnemy* data=new ShieldedEnemy[n];
+	Enemy** data=new Enemy*[n];
 	for (int i = 0; i < n; i++)
 	{
 		health = getRandomInt(0, 100);
 		attackDamage = getRandomInt(0, 100);
 		shieldHealth = getRandomInt(0, 100);
-		//C6385	Reading invalid data from 'data':  the readable size is '(unsigned int)*56+4' bytes, but '112' bytes may be read
-		data[i] = ShieldedEnemy("Enemy" + std::to_string(i + 1), health, attackDamage, hitProbability, shieldHealth);
+		data[i] =new ShieldedEnemy("Enemy" + std::to_string(i + 1), health, attackDamage, hitProbability, shieldHealth);
 		try 
 		{
 			if (attackDamage < 50)
 			{
 				throw(IllegalEnemyException("Attack damage too low.", data[i]));
+				i--;
 			}
 		}
 		catch (const IllegalEnemyException & e)
 		{
-			std::cout << e.getEnemyName() << ", " << e.getEnemyHealth() << ", " << e.getEnemyAttackDamage() << ", " << e.getEnemyHitProbability() << ", " << e.getEnemyShieldHealth() << std::endl;
+			std::cout << e.getEnemyName() << ", " << e.getEnemyHealth() << ", " << e.getEnemyAttackDamage() << std::endl;
 		}
 	}
 	return data;
-	delete[] data;
 }
-int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
+int runBattle(Enemy** enemies1, Enemy** enemies2)
 {
 	int n = 5;
 	for (int i = 0; i < n; i++)
 	{
-		enemies2[getRandomInt(0, n)].takeDamage(enemies1[i].getAttackDamage());
+		enemies2[getRandomInt(0, n)]->takeDamage(enemies1[i]->getAttackDamage());
 	}
 	for (int i = 0; i < n; i++)
 	{
-		enemies1[getRandomInt(0, n)].takeDamage(enemies2[i].getAttackDamage());
+		enemies1[getRandomInt(0, n)]->takeDamage(enemies2[i]->getAttackDamage());
 	}
 	int counter1 = 0, counter2 = 0;
 	for (int i = 0; i < n; i++)
 	{
-		if (enemies1[i].getHealth() > 0)
+		if (enemies1[i]->getHealth() > 0)
 			counter1++;
-		if (enemies2[i].getHealth() > 0)
+		if (enemies2[i]->getHealth() > 0)
 			counter2++;
 	}
-	std::cout << counter1 << " " << counter2 << std::endl;
 	if (counter1 > counter2)
 		return 1;
 	if (counter1 < counter2)
@@ -129,7 +125,7 @@ int runBattle(ShieldedEnemy* enemies1, ShieldedEnemy* enemies2)
 int main()
 {
 	srand(time(NULL));
-		ShieldedEnemy* enemies1 = createEnemies(5);
-		ShieldedEnemy* enemies2 = createEnemies(5);
+		Enemy** enemies1 = createEnemies(5);
+		Enemy** enemies2 = createEnemies(5);
 		std::cout << runBattle(enemies1, enemies2);
 }
