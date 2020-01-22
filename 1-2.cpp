@@ -25,11 +25,11 @@ class Money {
 };
 bool operator <=(const Money& ref1,const Money& ref2)
 {
-	return ((ref1.mAmount < ref2.mAmount)||ref1.mAmount==ref2.mAmount);
+	return (ref1.mAmount <=ref2.mAmount);
 }
 bool operator >=(const Money& ref1, const Money& ref2)
 {
-	return ((ref1.mAmount > ref2.mAmount) || ref1.mAmount == ref2.mAmount);
+	return (ref1.mAmount >= ref2.mAmount);
 }
 bool operator >(const Money& ref1, const Money& ref2)
 {
@@ -38,7 +38,7 @@ bool operator >(const Money& ref1, const Money& ref2)
 int main()
 {
 	srand(time(NULL));
-	int n = 1000;
+	int n = 10;
 	Money *polje=new Money[n];
 	for (int i = 0; i < n; i++)
 	{
