@@ -36,7 +36,7 @@ class ShieldedEnemy : public Enemy
 	double mhitProbability;
 	int mshieldHealth;
 public:
-	ShieldedEnemy(std::string name, int health, int attackDamage, double hitProbability, int shieldHealth) :Enemy(name, health, attackDamage), mhitProbability(hitProbability), mshieldHealth(shieldHealth) {}
+	ShieldedEnemy(std::string name, int attackDamage, double hitProbability, int shieldHealth) :Enemy(name, 100, attackDamage), mhitProbability(hitProbability), mshieldHealth(shieldHealth) {}
 	ShieldedEnemy() :Enemy("Default", 100, 50), mhitProbability(0.5), mshieldHealth(100) {}
 	int getShieldHealth() const { return mshieldHealth; }
 	double getHitProbability() const { return mhitProbability; }
@@ -73,13 +73,12 @@ Enemy** createEnemies(const int n)
 	Enemy** data = new Enemy * [n];
 	for (int i = 0; i < n; i++)
 	{
-		int health = getRandomInt(0, 100);
 		int attackDamage = getRandomInt(0, 100);
 		int shieldHealth = getRandomInt(0, 100);
 		double hitProbability = getRandomDouble(0, 1);
 		try
 		{
-			data[i] = new ShieldedEnemy("Enemy" + std::to_string(i + 1), health, attackDamage, hitProbability, shieldHealth);
+			data[i] = new ShieldedEnemy("Enemy" + std::to_string(i + 1), attackDamage, hitProbability, shieldHealth);
 			if (data[i]->getAttackDamage() < 50)
 			{
 				throw(IllegalEnemyException("Attack damage too low", data[i]));
